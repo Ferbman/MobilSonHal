@@ -23,15 +23,15 @@ class _ProfileCartState extends State<ProfileCart> {
       builder: (context,
           AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
         if (!snapshot.hasData) {
-          return CircularProgressIndicator(); // or any other loading indicator
+          return const CircularProgressIndicator(); // or any other loading indicator
         }
         var userData = snapshot.data;
         return Column(
           children: [
             Container(
               height: 200,
-              margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              padding: EdgeInsets.all(10),
+              margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(20)),
               child: Row(
@@ -39,7 +39,7 @@ class _ProfileCartState extends State<ProfileCart> {
                   Container(
                       height: 120,
                       width: 120,
-                      margin: EdgeInsets.only(right: 10),
+                      margin: const EdgeInsets.only(right: 10),
                       child: Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
@@ -51,14 +51,14 @@ class _ProfileCartState extends State<ProfileCart> {
                         ),
                       )),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 30),
+                    padding: const EdgeInsets.symmetric(vertical: 30),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           userData?['userName'],
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontFamily: 'Montserrat',
                             color: Colors.black,
                             fontWeight: FontWeight.w600,
@@ -67,18 +67,17 @@ class _ProfileCartState extends State<ProfileCart> {
                         ),
                         Container(
                           width: 200,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
                                   width: 1.0,
-                                  color:
-                                      const Color.fromARGB(255, 172, 168, 168)),
+                                  color: Color.fromARGB(255, 172, 168, 168)),
                             ),
                             color: Colors.white,
                           ),
                           child: Text(
                             userData?['email'],
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
                               color: Color.fromARGB(255, 172, 168, 168),
@@ -87,30 +86,29 @@ class _ProfileCartState extends State<ProfileCart> {
                         ),
                         Container(
                           width: 200,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
                                   width: 1.0,
-                                  color:
-                                      const Color.fromARGB(255, 172, 168, 168)),
+                                  color: Color.fromARGB(255, 172, 168, 168)),
                             ),
                             color: Colors.white,
                           ),
                           child: Text(
                             userData?['telNo'],
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
-                              color: const Color.fromARGB(255, 172, 168, 168),
+                              color: Color.fromARGB(255, 172, 168, 168),
                             ),
                           ),
                         ),
-                        Text(
+                        const Text(
                           "Girişimci, Yazılımcı",
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
-                            color: const Color.fromARGB(255, 172, 168, 168),
+                            color: Color.fromARGB(255, 172, 168, 168),
                           ),
                         ),
                       ],

@@ -11,8 +11,6 @@ class MyItemsCard extends StatefulWidget {
 }
 
 class _MyItemsCardState extends State<MyItemsCard> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   User? user = FirebaseAuth.instance.currentUser;
   final currentUserId = FirebaseAuth.instance.currentUser!.uid;
 
@@ -45,9 +43,9 @@ class _MyItemsCardState extends State<MyItemsCard> {
           children: [
             for (var item in myItems)
               Container(
-                height: 110,
-                margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                padding: EdgeInsets.all(10),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10)),
@@ -56,57 +54,97 @@ class _MyItemsCardState extends State<MyItemsCard> {
                     Container(
                       height: 70,
                       width: 70,
-                      margin: EdgeInsets.only(right: 10),
+                      margin: const EdgeInsets.only(right: 10),
                       child: Image.network(item['ImgLink']),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            item['name'],
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              item['name'],
+                              style: const TextStyle(
+                                fontFamily: 'Montserrat',
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
-                          StreamBuilder(
-                            stream: FirebaseFirestore.instance
-                                .collection('applications')
-                                .where('userId', isEqualTo: item.id)
-                                .snapshots(),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<QuerySnapshot> snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return CircularProgressIndicator();
-                              }
-                              if (snapshot.hasError) {
-                                return Text('Error: ${snapshot.error}');
-                              }
-                              if (snapshot.data?.docs == null) {
-                                return Text("başvuruyok");
-                              } else {
-                                var listOfUsers = snapshot.data?.docs;
-                                for (var userr in listOfUsers!)
-                                  return Column(
-                                    children: [
-                                      Text(
-                                        userr.get('userId'),
-                                      ),
-                                    ],
-                                  );
-                              }
-                            },
-                          ),
-                        ],
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: SizedBox(
+                                    height: 50,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        StreamBuilder(
+                                          stream: FirebaseFirestore.instance
+                                              .collection('applications')
+                                              .where('itemId',
+                                                  isEqualTo: item["itemId"])
+                                              .snapshots(),
+                                          builder: (BuildContext context,
+                                              AsyncSnapshot<QuerySnapshot>
+                                                  snapshot) {
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.waiting) {
+                                              return const CircularProgressIndicator();
+                                            }
+                                            if (snapshot.hasError) {
+                                              return Text(
+                                                  'Error: ${snapshot.error}');
+                                            }
+                                            if (snapshot.hasData) {
+                                              for (var element
+                                                  in snapshot.data!.docs) {
+                                                print(element["itemId"]);
+                                              }
+                                              return Row(
+                                                children: List.generate(
+                                                    snapshot.data!.docs.length,
+                                                    (index) => Text(
+                                                        // code 15
+                                                        snapshot.data!
+                                                                    .docs[index]
+                                                                ["userName"] +
+                                                            "  ")),
+                                              );
+                                              //hocam ben burda item id ile başvuru itemiid eşitliyordum ki kendisi icinde yazsın boyle yanlıs olmadı mı çevireyim mi
+
+                                              /* ListView.builder(
+                                                scrollDirection: Axis.horizontal,
+                                                itemBuilder: (context, index) {
+                                                 
+                                                  if (currentData != null) {
+                                                    return Text(
+                                                        (currentData as Map)["itemId"]);
+                                                  } else {
+                                                    return const SizedBox();
+                                                  }
+                                                },
+                                              ); */
+                                            } else {
+                                              return const Center(
+                                                child: Text("erro"),
+                                              );
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    Spacer(),
-                    Padding(
+                    const Spacer(),
+                    const Padding(
                       padding: EdgeInsets.symmetric(vertical: 5),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,

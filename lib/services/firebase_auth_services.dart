@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:zirtavat/services/notification.dart';
 
 class FirebaseAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -20,6 +21,7 @@ class FirebaseAuthService {
       "basvuru": 0,
       "tedarik": 0,
       "telNo": '05555555555',
+      "token": await PushNotificationHelper.getDeviceTokenToSendNotification()
     });
     return user.user!;
   }

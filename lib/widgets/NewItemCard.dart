@@ -161,6 +161,7 @@ class _newItemState extends State<newItem> {
                             'name': nameController.text,
                             'ImgLink': imageUrl,
                             'userId': user,
+                            'itemId': itemid,
                           };
 
                           itemsRef.doc(itemid).set(items);
